@@ -1,0 +1,141 @@
+{% load static %}
+<style>
+    header {
+        background-color: #7CB9E8;
+        padding: 1% 1% 1% 1%;
+        text-align: center;
+        color:aliceblue;
+        /* font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
+        /* font-family: "Dancing Script", serif; */
+        font-family: "Arima", system-ui;
+    }
+
+    #header-div {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    /* .title-divs { */
+        /* justify-content: center; */
+        /* margin: 0 auto; */
+    /* } */
+
+    #SelfieBook {
+        font-family: 'Dancing Script';
+        font-size: 5em;
+    }
+
+    .top-button {
+        background-color: #7CB9E8;
+        border-radius: 10px;
+        border-color: white;
+        color: white;
+        margin-right: 10%;
+        padding: 10px 30px 10px 30px;
+        font-size: 1.3em;
+    }
+
+    .button-div-parent {
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: row;
+        /* border: 3px solid green; */
+        width: 100%;
+    }
+
+    #button-div-small {
+        /* margin-left: 40%; */
+        width: 100%;
+        display: flex;
+        justify-content: space-evenly;
+        /* border: 3px solid pink; */
+    }
+    
+    
+    /* #button-div-left {
+        border: 3px solid yellow;
+    } */
+
+    #button-div {
+        /* display: flex; */
+        /* justify-content: space-evenly; */
+        /* flex-direction: row; */
+        margin-left: 70%;
+        /* border: 3px solid brown; */
+        /* width: 50%; */
+    }
+
+    #disclaimer {
+      text-align: center;
+      font-size: 1.1em;
+      margin-bottom: 0;
+    }
+
+    hr {
+        margin-top: 0;
+        margin-bottom: 0;
+        border-top: 4px solid lightblue;
+    }
+    
+</style>
+<header>
+    <!-- phones -->
+    <div class="col-sm-2 visible-sm visible-xs hidden-md hidden-lg button-div-parent">
+        <div id="button-div-small">
+        {% if user.is_authenticated %}
+        {% if notifications|length > 0 %}
+        {% with number=notifications|length %}
+        <a href="/notifications"><button class="top-button">{{ number }}<img src="{% static 'img/notification.png' %}" /></button></a>
+        <a href="/signout"><button class="top-button">Logout</button></a>
+        {% endwith %}
+        {% else %}
+        <a href="/notifications"><button class="top-button">  Hi {{user.username}}  </button></a>
+        <a href="/signout"><button class="top-button">Logout</button></a>
+        {% endif %}
+        {% else %}
+        <a href="/register/"><button class="top-button">Join </button></a>
+        <a href="/signin"><button class="top-button">Login</button></a>
+        {% endif %}
+        </div>
+    </div>
+    <br>
+
+    <!-- computers -->
+    <div class="visible-lg hidden-sm button-div-parent">
+        <!-- <div id="button-div-left">
+            <p>bb</p>
+        </div> -->
+        <div id="button-div">
+        {% if user.is_authenticated %}
+        {% if notifications|length > 0 %}
+        {% with number=notifications|length %}
+        <a href="/notifications"><button class="top-button">{{ number }}<img src="{% static 'img/notification.png' %}" /></button></a>
+        <a href="/signout"><button class="top-button">Logout</button></a>
+        {% endwith %}
+        {% else %}
+        <a href="/notifications"><button class="top-button">  Hi {{user.username}}  </button></a>
+        <a href="/signout"><button class="top-button">Logout</button></a>
+        {% endif %}
+        {% else %}
+        <a href="/register/"><button class="top-button">Join </button></a>
+        <a href="/signin"><button class="top-button">Login</button></a>
+        {% endif %}
+        </div>
+    </div>
+    <br>
+    <div id="header-div">
+        <div class="title-divs">
+            <br>
+            <br>
+            <img src="{% static 'img/blueselfie.png' %}" />
+        </div>
+        <div>
+            <h1 id="SelfieBook">Selfie Book</h1>
+            <h4>Your Daily, Weekly or Monthly Selfies Go Here</h4>
+        </div>
+    </div>
+</header>
+<hr id="header-hr">
+<p id="disclaimer">Disclaimer: This is a personal portfolio project, created to display Django programming skills. SelfieBook is not scaled for large-scale social media use.</p>
+<!-- <hr id="header-hr"> -->

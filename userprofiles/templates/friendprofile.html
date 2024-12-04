@@ -1,0 +1,270 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+
+  .profileheader {
+    width: 100%;
+  }
+
+  #profileheader {
+    background-color: aliceblue;
+    width: 100%;
+    margin-bottom: 1%;
+    text-align: center;
+    color: darkblue;
+  }
+
+  #sectiondiv {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #profile-details-div {
+    border: 3px solid #7CB9E8;
+    border-radius: 15px;
+    font-size: 1.5em;
+  }
+
+  .profile-info {
+    font-weight: 100;
+    margin-left: 15%;
+  }
+
+  #mainform {
+    margin: auto;
+    border: 3px solid orange;
+    width: 75%;
+  }
+
+  #buttondiv {
+    margin: auto;
+  }
+
+  button {
+    background-color: #7CB9E8;
+    color: white;
+    border-radius: 10% 10% 10% 10%;
+    border-color: grey;
+    padding: 1% 1% 1% 1%;
+  }
+
+  
+  #profilepic {
+    border-radius: 15px;
+    border: 3px solid #7CB9E8;
+  }
+
+  #messages {
+    margin: auto;
+    align-content: center;
+    color: #7CB9E8;
+  }
+
+  .galleryheader {
+      width: 100%;
+    }
+  
+    #galleryheader, h5 {
+      background-color: aliceblue;
+      width: 100%;
+      margin-bottom: 1%;
+      text-align: center;
+      color: darkblue;
+    }
+  
+      .gallerydivider {
+          display: flex;
+          flex-wrap: wrap;
+          flex-direction: row;
+          justify-content: space-evenly;
+          width: 100%;
+          float: left;
+          padding: 0;
+          /* margin-left: -10%; */
+          /* border: 3px solid orange; */
+      }
+  
+      .alpha {
+          border: 3px solid #7CB9E8;
+          border-radius: 15px;
+          display: flex;
+          /* margin-right: -10%; */
+          /* width: 52%; */
+          /* height: 100%; */
+          align-items: stretch;
+          align-content: stretch;
+          justify-content: stretch;
+          gap: 0;
+          margin: 0 0 0 0;
+      }
+  
+      /* .photodivider {
+          display: flex;
+          flex-direction: column;
+          justify-content: stretch;
+          border: 3px solid blue;
+          width: 100%;
+          height: 100%;
+      } */
+  
+      /* .photoinfo {
+          text-align: center;
+      } */
+  
+      /* .selfies {
+          text-align: center;
+          display: flex;
+          width: 100%;
+          height: 100%;
+      } */
+  
+      img {
+          /* margin: -10 -10 -10 -10; */
+          object-fit: fill;
+          padding: 0;
+          margin: 0;
+          /* margin-right: -10%; */
+          border-radius: 15px;
+          /* padding-left: -30; */
+          /* padding-right: -30; */
+          max-width: 100%;
+          max-height: 100%;
+          justify-content: stretch;
+          /* box-sizing: content-box; */
+          /* transition: transform .2s; */
+      }
+  
+      img:hover {
+          cursor: pointer;
+          filter: brightness(70%);
+      }
+  
+      #fullimageview {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, .9);
+        text-align: center;
+      }
+  
+      #fullimage {
+        padding: 24px;
+        max-width: 100vw;
+        max-height: 100vh;
+      }
+  
+      #closebutton {
+        position: fixed;
+        top: 12px;
+        /* float: left; */
+        left: 15%;
+        height: 98%;
+        width: 98%;
+        font-size: 4rem;
+        color: black;
+        cursor: pointer;
+      }
+</style>
+
+<section>
+  <div class="profileheader">
+    <div id="profileheader">
+      <h3>{{ friends_profile.user }}'s Profile</h3>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div id="profile-details-div">
+  {% if request.user.is_authenticated %}
+    <br>
+    <p class="profile-info"><strong>First Name: </strong>{{ friends_profile.first_name }}</p>
+    <hr>
+    <p class="profile-info"><strong>Surname: </strong>{{ friends_profile.last_name }}</p>
+    <hr>
+    <p class="profile-info"><strong>Location: </strong>{{ friends_profile.location }}</p>
+    <hr>
+    <p class="profile-info"><strong>Birthday: </strong>{{ friends_profile.birthday }}</p>
+    <br>
+    <hr>
+    <p class="profile-info"><strong>Profile Picture: </strong><img id="profilepic" src="{{ friends_profile.profilepicture.url }}" class="profile-picture img-responsive img-fluid img-thumbnail" height="300px" width="150px" /></p>
+  {% endif %}
+  </div>
+</section>
+
+
+<!-- <div id="account-settings-div">
+  <h4><img src="{% static 'img/settings.png' %}"/> | Profile</h4>
+  <div class="selection-div">
+      <div><p><img src="{% static 'img/visibility.png' %}">First Name | {{ profile.first_name }}</p></div><div><img src="{% static 'img/right-arrow.png' %}" /></div>
+  </div>
+  <div class="selection-div">
+      <div><p><img src="{% static 'img/change-profile-photo.png' %}"> | Change Profile Picture</p></div><div><img src="{% static 'img/right-arrow.png' %}" /></div>
+  </div>
+  <div class="selection-div">
+      <div><p><img src="{% static 'img/password-reset.png' %}"> | Change Password</p></div><div><img src="{% static 'img/right-arrow.png' %}" /></div>
+  </div>
+</div> -->
+
+
+    
+  <br>
+  
+  <section>
+      <div class="galleryheader">
+        <div id="galleryheader">
+          <h3>{{ friends_profile.user }}'s Gallery</h3>
+        </div>
+        <div>
+          <h5>Looking back in time...</h5>
+        </div>
+      </div>
+    </section>
+  
+  {% if request.user.is_authenticated %}
+  
+  <div class="gallerydivider col-sm-12 col-md-12 col-lg-12">
+    {% for i in selfies.selfies %}
+      <div class="alpha col-md-3 col-lg-3 col-sm-3 col-xs-6">
+        <!-- <div class="photodivider"> -->
+          <!-- <div class="selfies"> -->
+          <img src="{{ i.selfie.url }}" class="selfies img-fluid img-thumbnail" onclick="enterFullScreen(this.src)"/>
+          <!-- </div> -->
+          <!-- <hr> -->
+          <!-- <div class="photoinfo">
+          {{ i.date }}
+          </div>
+          <hr>
+          <div class="photoinfo">
+          {{ i.caption }}
+          </div> -->
+        <!-- </div> -->
+      </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p>Please login to upload selfies</p>
+  {% endif %}
+  <div id="fullimageview">
+    <img id="fullimage" />
+    <span id="closebutton" onclick="closeFullView()">&times;</span>
+    <p id="caption"></p>
+  </div>
+  
+  <script type="text/javascript">
+    function enterFullScreen(ImgLink) {
+      document.getElementById("fullimage").src = ImgLink;
+      document.getElementById("fullimageview").style.display = "block";
+    }
+  
+    function closeFullView() {
+      document.getElementById("fullimageview").style.display = "none";
+    }
+  </script>
+
+{% endblock %}

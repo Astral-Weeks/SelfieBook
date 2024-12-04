@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+
+    p, #seeprofilebutton {
+        margin-left: 15%;
+    }
+
+    #request-sentence {
+        font-size: 1.4em;
+        color: darkblue;
+    }
+
+    .requester-info-div {
+        border: 3px solid #7CB9E8;
+        border-radius: 15px;
+    }
+
+    .buttons-div {
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: row;
+        width: 75%;
+    }
+
+    .buttons-sub-div {
+        width: 100%;
+    }
+
+    #seeprofilebutton {
+        border-radius: 15px;
+        border-color: white;
+        background-color: #7CB9E8;
+        color: white;
+        width: 25%;
+        font-size: 1.4em;
+    }
+
+    .requestbutton {
+        border-radius: 15px;
+        border-color: white;
+        background-color: #7CB9E8;
+        color: white;
+        width: 100%;
+        font-size: 1.4em;
+    }
+
+    #accept {
+        background-color: lightgreen;
+    }
+
+    #reject {
+        background-color: lightcoral;
+    }
+
+    .no-requests-messages {
+        margin-left: 15%;
+        font-size: 1.4em;
+        color: rosybrown;
+        font-weight: 600;
+    }
+
+</style>
+
+{% if current_requests|length > 0 %}
+    {% for item in current_requests %}
+    {% with friend=item.requester.user.id %}
+    <br>
+    <br>
+    <div class="requester-info-div">
+    <div>
+        <br>
+    <!-- <img src="{{ i.profilepicture.url }}" class="profile-picture img-responsive img-fluid img-thumbnail" /> -->
+    <p id="request-sentence"><strong><em>{{ item.requester.user }}</em></strong> wants to be your friend!</p>
+    <br>
+        <form action="/friendprofile" method="POST">
+            {% csrf_token %}
+            <button id="seeprofilebutton" name="friendprofilebutton" value="{{ friend }}">See their profile</button>
+        </form>
+    <br>
+    <br>
+    </div>
+    <div class="buttons-div">
+        <div class="buttons-sub-div">
+            <form action="/acceptrequest/" method="POST">
+                {% csrf_token %}
+                <button class="requestbutton" name="requestbutton" id="accept" value="{{ friend }}">
+                    Accept
+                </button>
+            </form>
+        </div>
+        <div class="buttons-sub-div">
+            <form action="/rejectrequest/" method="POST">
+                {% csrf_token %}
+                <button class="requestbutton" name="requestbutton" id="reject" value="{{ friend }}">
+                    Reject
+                </button>
+            </form>
+        </div>
+        <br>
+        <br>
+        <br>
+    </div>
+    </div>
+    <br>
+    <br>
+    <hr>
+    {% endwith %}
+    {% endfor %}
+{% else %}
+<br>
+<br>
+<p class="no-requests-messages">Currently you have no requests</p>
+<br>
+<br>
+{% endif %}
+
+
+{% endblock %}

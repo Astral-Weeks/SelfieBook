@@ -1,0 +1,467 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+
+  .galleryheader {
+    width: 100%;
+  }
+
+  #galleryheader, h5 {
+    background-color: aliceblue;
+    width: 100%;
+    margin-bottom: 1%;
+    text-align: center;
+    color: darkblue;
+  }
+
+    .gallerydivider {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: space-evenly;
+        width: 100%;
+        float: left;
+        padding: 0;
+        /* margin-left: -10%; */
+        /* border: 3px solid orange; */
+    }
+
+    .alpha {
+        border: 3px solid #7CB9E8;
+        border-radius: 15px;
+        display: flex;
+        /* margin-right: -10%; */
+        /* width: 52%; */
+        /* height: 100%; */
+        align-items: stretch;
+        align-content: stretch;
+        justify-content: stretch;
+        gap: 0;
+        margin: 0 0 0 0;
+    }
+
+    .photodivider {
+        display: flex;
+        flex-direction: column;
+        justify-content: stretch;
+        /* border: 3px solid blue; */
+        width: 100%;
+        height: 100%;
+    }
+
+    .infotoggle {
+      background-color: #7CB9E8;
+      opacity: 0.25;
+      border-radius: 15px;
+      text-align: center;
+      /* padding: -10px; */
+    }
+
+    .photoinfo {
+        text-align: center;
+    }
+
+    .selfies {
+        text-align: center;
+        display: flex;
+        width: 100%;
+        height: 100%;
+    }
+
+    .delete-button {
+      background-color: lightcoral;
+      color: white;
+      opacity: 0.5;
+      border-radius: 15px;
+      width: 75%;
+    }
+
+    .delete-photo-button {
+      background-color: lightcoral;
+      color: white;
+      opacity: 0.5;
+      border-radius: 15px;
+      width: 75%;
+    }
+
+    .confirm-delete-button {
+      background-color: lightcoral;
+      color: white;
+      opacity: 0.5;
+      border-radius: 15px;
+      width: 75%;
+    }
+
+
+    .do-not-delete-button {
+      background-color: #7CB9E8;
+      color: white;
+      opacity: 0.5;
+      border-radius: 15px;
+      width: 75%;
+    }
+
+    img {
+        /* margin: -10 -10 -10 -10; */
+        object-fit: fill;
+        padding: 0;
+        margin: 0;
+        /* margin-right: -10%; */
+        border-radius: 15px;
+        /* padding-left: -30; */
+        /* padding-right: -30; */
+        max-width: 100%;
+        max-height: 100%;
+        justify-content: stretch;
+        /* box-sizing: content-box; */
+        /* transition: transform .2s; */
+    }
+
+    img:hover {
+        cursor: pointer;
+        filter: brightness(70%);
+    }
+
+    #fullimageview {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, .9);
+      text-align: center;
+    }
+
+    #fullimage {
+      /* padding: 24px; */
+      max-width: 100vw;
+      max-height: 100vh;
+      border: 6px solid #7CB9E8;
+    }
+
+    #closebutton {
+      position: fixed;
+      top: 12px;
+      /* float: left; */
+      left: 45%;
+      height: 98%;
+      width: 98%;
+      font-size: 4rem;
+      color: black;
+      cursor: pointer;
+    }
+
+
+
+
+    #slides{
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, .9);
+      text-align: center;
+
+
+      /* position: relative; */
+      /* height: 1800px; */
+      /* max-width: 100vw; */
+      /* max-height: 100vh; */
+      /* height: 100vh; */
+      /* width: 100vw; */
+      /* padding: 0px; */
+      /* margin: 0px; */
+      /* background-color: rgba(0, 0, 0, .9); */
+      /* text-align: center; */
+      /* list-style-type: none; */
+    }
+
+    /* li {
+      text-align: center;
+    } */
+
+    @media only screen and (max-device-width : 480px) {
+  .slide{
+
+      max-width: 100vw;
+      max-height: 100vh;
+      height: 100%;
+      /* width: 100%; */
+      left: 0%;
+      right: 0%;
+      /* margin-left: 25%; */
+      /* margin-right: 25%; */
+      border: 6px solid #7CB9E8;
+
+      /* text-align: center; */
+      position: absolute;
+      /* left: 0px;
+      top: 0px; */
+      /* max-width: 100vw; */
+      /* max-height: 100vh; */
+      /* width: 100%;
+      height: 100%; */
+      opacity: 0;
+      z-index: 1;
+
+      -webkit-transition: opacity 1s;
+      -moz-transition: opacity 1s;
+      -o-transition: opacity 1s;
+      transition: opacity 1s;
+    }
+}
+
+@media only screen and (min-device-width : 481px) { 
+    .slide{
+
+      /* max-width: 100vw; */
+      max-height: 100vh;
+      height: 100%;
+      /* width: 100%; */
+      left: 25%;
+      right: 25%;
+      /* margin-left: 25%; */
+      /* margin-right: 25%; */
+      border: 6px solid #7CB9E8;
+
+      /* text-align: center; */
+      position: absolute;
+      /* left: 0px;
+      top: 0px; */
+      /* max-width: 100vw; */
+      /* max-height: 100vh; */
+      /* width: 100%;
+      height: 100%; */
+      opacity: 0;
+      z-index: 1;
+
+      -webkit-transition: opacity 1s;
+      -moz-transition: opacity 1s;
+      -o-transition: opacity 1s;
+      transition: opacity 1s;
+    }
+  }
+
+    .showing{
+      opacity: 1;
+      z-index: 2;
+    }
+
+    .controls {
+      background-color: #7CB9E8;
+      color: white;
+      border-radius: 10px;
+      border-color: grey;
+      padding: 1% 1% 1% 1%;
+      width: 100%;
+      font-size: 1.3em;
+    }
+
+    /*
+    non-essential styles:
+    just for appearance; change whatever you want
+    */
+
+    /* .slide{
+      font-size: 40px;
+      padding: 40px;
+      box-sizing: border-box;
+      background: #333;
+      color: #fff;
+    } */
+
+    /* .slide:nth-of-type(1){
+      background: red;
+    }
+    .slide:nth-of-type(2){
+      background: orange;
+    }
+    .slide:nth-of-type(3){
+      background: green;
+    }
+    .slide:nth-of-type(4){
+      background: blue;
+    }
+    .slide:nth-of-type(5){
+      background: purple;
+    } */
+
+
+
+
+</style>
+
+<section>
+    <div class="galleryheader">
+      <div id="galleryheader">
+        <h3>Your Gallery</h3>
+      </div>
+      <div>
+        <h5>Is it really you...?</h5>
+      </div>
+    </div>
+  </section>
+
+  <br>
+  <button class="controls" id="pause">Timeline Slideshow</button>
+  <br>
+  <br>
+  <br>
+
+{% if request.user.is_authenticated %}
+
+<div id="gallery" class="gallerydivider col-sm-12 col-md-12 col-lg-12">
+  {% for i in selfies.selfies %}
+    {% with photoid=i.id %}
+    <div class="alpha col-md-3 col-lg-3 col-sm-3 col-xs-6">
+      <div class="photodivider">
+        <div class="selfies">
+        <img src="{{ i.selfie.url }}" class="selfies img-fluid img-thumbnail" onclick="enterFullScreen(this.src)"/>
+        </div>
+        <p class="infotoggle"><img src="{% static 'img/dropdown20.png' %}" /></p>
+        <!-- <hr id="yeah"> -->
+        <div class="photoinfo" hidden="hidden">
+        {{ i.date }}
+        <!-- </div> -->
+        <br>
+        <!-- <div class="photoinfo"> -->
+        {{ i.caption }}
+        <br>
+        <br>
+        <button class="delete-button">Delete</button>
+        <form action="/deletephoto/" method="POST" class="deleteform" hidden="hidden">
+          {% csrf_token %}
+          <button class="confirm-delete-button" name="deletebutton" value="{{ photoid }}">Confirm</button>
+        </form>
+        <!-- <form id="donotdeleteform" hidden="hidden"> -->
+          <!-- {% csrf_token %} -->
+          <button class="do-not-delete-button donotdeleteform" name="deletebutton" hidden="hidden">Go Back</button>
+        <!-- </form> -->
+        </div>
+      </div>
+    </div>
+    {% endwith %}
+  {% endfor %}
+</div>
+{% else %}
+<p>Please login to upload selfies</p>
+{% endif %}
+
+
+<div id="fullimageview">
+  <img id="fullimage" />
+  <span id="closebutton" onclick="closeFullView()">&times;</span>
+  <p id="caption"></p>
+</div>
+
+
+
+<ul id="slides" hidden="hidden">
+  {% for i in selfies.selfies %}
+    <li class="slide"><img src="{{ i.selfie.url }}" class="selfies img-fluid img-thumbnail" onclick="enterFullScreen(this.src)"/></li>
+  {% endfor %}
+	<!-- <li class="slide showing">Slide 1</li>
+	<li class="slide">Slide 2</li>
+	<li class="slide">Slide 3</li>
+	<li class="slide">Slide 4</li>
+	<li class="slide">Slide 5</li> -->
+</ul>
+
+<!-- <div>
+<hr>
+<br>
+<section><p></p></section>
+<hr>
+<br>
+<button class="controls" id="pause">Timeline Slideshow</button>
+<br>
+<p>     </p>
+<br>
+</div> -->
+
+<script type="text/javascript">
+  let info = document.querySelector(".photoinfo")
+
+  $(document).ready(function() {
+    $(".infotoggle").click(function() {
+      $(".photoinfo").toggle(500);
+    });
+  });
+
+  function enterFullScreen(ImgLink) {
+    document.getElementById("fullimage").src = ImgLink;
+    document.getElementById("fullimageview").style.display = "block";
+  }
+
+  function closeFullView() {
+    document.getElementById("fullimageview").style.display = "none";
+  }
+    
+
+    $(document).ready(function() {
+      $(".delete-button").click(function() {
+        $(".delete-button").hide();
+        $(".deleteform").toggle(150);
+        $('.donotdeleteform').toggle(150);
+      });
+    });
+
+    $(document).ready(function() {
+      $(".donotdeleteform").click(function() {
+        $(".deleteform").hide();
+        $(".donotdeleteform").hide();
+        $('.delete-button').show();
+      });
+    });
+
+    $(document).ready(function() {
+    $("#pause").click(function() {
+      $('#gallery').toggle(500);
+      $("#slides").toggle(500);
+    });
+  });
+
+
+
+//////////////////////////////////////////////////////
+
+var slides = document.querySelectorAll('#slides .slide');
+var currentSlide = 0;
+var slideInterval = setInterval(nextSlide,2000);
+
+function nextSlide(){
+	slides[currentSlide].className = 'slide';
+	currentSlide = (currentSlide+1)%slides.length;
+	slides[currentSlide].className = 'slide showing';
+}
+
+var playing = false;
+var pauseButton = document.getElementById('pause');
+let slidesho = document.getElementsById('slides')
+
+function pauseSlideshow(){
+	pauseButton.innerHTML = 'Play';
+	playing = true;
+	clearInterval(slideInterval);
+}
+
+function playSlideshow(){
+	pauseButton.innerHTML = 'Pause';
+	playing = true;
+	slideInterval = setInterval(nextSlide,2000);
+}
+
+pauseButton.onclick = function(){
+	if(playing){ pauseSlideshow(); }
+	else{ playSlideshow(); }
+};
+
+
+</script>
+
+{% endblock %}

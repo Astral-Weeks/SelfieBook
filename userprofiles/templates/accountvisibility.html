@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    h4, label {
+        margin-left: 10%;
+        font-size: 1.3em;
+    }
+
+    input {
+        width: 5vw;
+        transform: scale(1.4);
+    }
+
+    #submitbutton {
+        margin-left: 10%;
+        width: 50vw;
+        background-color: #7CB9E8;
+        color: white;
+        border-radius: 15px;
+        font-size: 1.3em;
+    }
+
+    #current-status {
+        color: lightcoral;
+    }
+
+    .choices {
+        border: 3px solid  #D0D8DF;
+        border-radius: 15px;
+    }
+</style>
+
+<br>
+
+<section id="current-status">
+{% for i in currentsettings %}
+    {% if i.publicaccount == True %}
+    <h4>Your account is currently a public account, and can be searched for by others</h4>
+    {% elif i.publicaccount == False %}
+    <h4>Your account is current a private account, and cannot be searched for publicly</h4>
+    {% endif %}
+{% endfor %}
+</section>
+
+<form action="/updatedsettings" method=POST>
+    {% csrf_token %}
+    <h4>Choose your settings:</h4>
+    <hr>
+    <div class="choices">
+    <label for="privateaccount">Private Account</label>
+        <input type="radio" id="privateaccount" value=false name="accountvisibility" />
+    <h4>Your account is not searchable. People can only add you as a friend by private request</h4>
+    </div>
+    <div class="choices">
+    <label for="publicaccount">Public Account</label>
+        <input type="radio" id="publicaccount" value=true name="accountvisibility" />
+    <h4>Your account is searchable for people to add you as a friend</h4>
+    </div>
+    <br>
+    <button type="submit" id="submitbutton" class="btn">Change Settings</button>
+</form>
+
+{% endblock %}

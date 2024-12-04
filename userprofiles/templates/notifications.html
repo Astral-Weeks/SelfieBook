@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    form, h5, p, .username, .messages {
+      /* text-align: center; */
+      margin-left: 15%;
+      font-size: 1.3em;
+    }
+
+    h4 {
+      margin-left: 8%;
+    }
+  
+    input {
+      width: 40vw;
+    }
+  
+    .profileheader {
+      width: 100%;
+    }
+  
+    #profileheader {
+      background-color: aliceblue;
+      width: 100%;
+      margin-bottom: 1%;
+      /* text-align: center; */
+      margin-left: 15%;
+      color: darkblue;
+    }
+  
+    .profile-div {
+      display: flex;
+      justify-content: space-evenly;
+      /* border: 3px solid blue; */
+    }
+  
+    .left-div {
+      width: 20%;
+      height: 100%;
+    }
+  
+    .right-div {
+      width: 80%;
+      height: 100%;
+    }
+  
+    .profile-picture {
+      height: 100px;
+      width: 78px;
+      border-radius: 45px;
+    }
+  
+    .username {
+      color: darkblue;
+    }
+  
+    #searchbutton {
+      border-color: white;
+      background-color: #7CB9E8;
+      color: white;
+    }
+
+    .notification-div {
+        border: 3px solid #7CB9E8;
+    }
+  
+    .notificationbutton {
+      border-radius: 15px;
+      border-color: white;
+      background-color: lightcoral;
+      color: white;
+      margin-left: 5%;
+    }
+  
+    #no_user_found_message {
+      margin-left: 15%;
+      font-size: 1.4em;
+      color: rosybrown;
+      font-weight: 600;
+    }
+  
+  </style>
+
+<section>
+    <br>
+    <h4><strong>Friend Requests</strong></h4>
+    <hr>
+    {% for i in notifications %}
+        <div class="notification-div">
+            <br>
+            <li class="messages">{{ i.message }} <strong><em>{{ i.notifier.user.username}}</strong></em>, <a href='/friend-requests/'>here</a></li>
+            <form action="mark-unread" method="POST">
+                {% csrf_token %}
+                <button class="notificationbutton" name="update" value="{{i.id}}">Mark Unread</button>
+            </form>
+            <br>
+        </div>
+    {% endfor %}
+    <br>
+</section>
+
+{% endblock %}

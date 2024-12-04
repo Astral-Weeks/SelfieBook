@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+
+  .profileheader {
+    width: 100%;
+  }
+
+  #profileheader {
+    background-color: aliceblue;
+    width: 100%;
+    margin-bottom: 1%;
+    text-align: center;
+    color: darkblue;
+  }
+
+  #sectiondiv {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #mainform {
+    margin: auto;
+    border: 3px solid #7CB9E8;
+    border-radius: 15px;
+    width: 75%;
+    font-weight: 100;
+    /* margin-left: 15%; */
+    font-size: 1.3em;
+  }
+
+  #buttondiv {
+    margin: auto;
+  }
+
+  #submitbutton {
+    background-color: #7CB9E8;
+    color: white;
+    border-radius: 10px 10px 10px 10px;
+    border-color: grey;
+    padding: 1% 1% 1% 1%;
+    width: 100%;
+  }
+
+  #gobackbutton {
+    background-color: lightcoral;
+    color: white;
+    border-radius: 10px 10px 10px 10px;
+    border-color: grey;
+    padding: 1% 1% 1% 1%;
+    width: 100%;
+  }
+
+  #messages {
+    margin: auto;
+    align-content: center;
+    color: #7CB9E8;
+  }
+
+</style>
+
+<section>
+  <div class="profileheader">
+    <div id="profileheader">
+      <h3>Your Profile</h3>
+    </div>
+  </div>
+</section>
+
+<section>
+  {% if request.user.is_authenticated %}
+  <p>{{ profile.first_name }}</p>
+  {% endif %}
+</section>
+<br>
+<br>
+<section>
+  <div id="sectiondiv">
+    <div id="mainform">
+      {% if request.user.is_authenticated %}
+      <form method="post" action="/create-profile/">
+        <br>
+          {% csrf_token %}
+          {{ form.as_p }}
+          <hr>
+          <div id="buttondiv">
+            <button id="submitbutton" type="submit">I am ready!</button>
+          </div>
+      </form>
+      <a href="/account/"><button id="gobackbutton">Go Back</button></a>
+<br>
+<br>
+
+      {% else %}
+      <p>Please sign in</p>
+      {% endif %}
+    </div>
+    <div id="messages">
+      {% if messages %}
+      {% for message in messages %}
+        <p id="p-message">{{message}}</p>
+      {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    h5 {
+        text-align: center;
+    }
+</style>
+
+<form action="/find-friends">
+    <input type="search" name="searchedforname" />
+    <a href="/find-friends-results"><button type="submit">Search</button></a>
+</form>
+
+<section>
+    <div class="searchheader">
+      <div id="searchheader">
+        <!-- <h3>Your Gallery</h3> -->
+      </div>
+      <div>
+        <h5>Users on SelfieBook</h5>
+      </div>
+    </div>
+  </section>
+
+<div>
+    {% for i in res %}
+        <p>sdkjbhjwbf {{ i.first_name }}</p>
+        {{ i.id }}
+        <p>LOOOVVVVEEEEE{{ i.fullname }}</p>
+    {% endfor %}
+</div>
+
+    <div id="messages">
+      {% if messages %}
+      {% for message in messages %}
+        <p id="p-message">{{message}}</p>
+      {% endfor %}
+      {% endif %}
+    </div>
+
+{% endblock %}

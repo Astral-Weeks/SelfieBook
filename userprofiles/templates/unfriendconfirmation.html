@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+
+.buttons-div {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    /* border: 3px solid blue; */
+  }
+
+  #left-div, #right-div {
+    width: 100%;
+  }
+
+  .friendorunfriendbutton {
+    border-radius: 15px;
+    border-color: white;
+    color: white;
+    font-size: 1.3em;
+    padding: 10px 10px 10px 10px;
+    width: 100%;
+  }
+
+  #unfriendbutton {
+    background-color: green;
+  }
+
+  #gobackbutton {
+    background-color: lightcoral;
+  }
+
+</style>
+
+<br>
+
+<div class="buttons-div">
+    {% with person=l.id %}
+    <div id="left-div">
+      <form method="POST" action="{% url 'unfriend' %}">
+      {% csrf_token %}
+      <button class="friendorunfriendbutton" id="unfriendbutton" name="unfriendbutton" value="{{ person }}" type="submit">Confirm</button>
+      </form>
+    </div>
+    <div id="right-div">
+      <form method="POST" action="{% url 'myfriends' %}">
+        {% csrf_token %}
+      <button class="friendorunfriendbutton" id="gobackbutton" name="gobackbutton" value="{{ person }}" type="submit">Go Back</button>
+    </form>
+    </div>
+    {% endwith %}
+</div>
+
+<br>
+
+{% endblock %}

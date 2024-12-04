@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+
+<style>
+  /* .form-group {
+    width: 80vw;
+  } */
+  .btn {
+    /* width: 65vw; */
+    height: 40px;
+    border-color: white;
+    background-color: #7CB9E8;
+    color: white;
+  }
+
+  #messages {
+        align-content: center;
+        color: #7CB9E8;
+      }
+      
+</style>
+
+<section>
+<div>
+    <form method="POST" action="{% url 'register' %}" autocomplete='off'>
+      {% csrf_token %}
+
+      <div class="form-group mb-3">
+          <label>{{ form.username.label_tag }}</label>
+          {{ form.username.errors }}
+          {% render_field form.username hx-post="/checkusername/" hx-target="#username-err" hx-trigger="keyup" class="form-control" %}
+          <div class="text-danger mt-2" id="username-err"></div>
+      </div>
+      <div>
+        <label>{{ form.email.label_tag }}</label>
+          {{ form.email.errors }}
+          {% render_field form.email class="form-control" %}
+      </div>
+          <label>{{ form.password1.label_tag }}</label>
+          {{ form.password1.errors }}
+          {% render_field form.password1 class="form-control" %}
+      </div>
+      <div>
+          <label>{{ form.password2.label_tag }}</label>
+          {{ form.password2.errors }}
+          {% render_field form.password2 class="form-control" %}
+      </div>
+      <br>      
+      <button type="submit" class="btn btn-success btn-block mt-2">Register</button>
+  </form>
+</div>
+
+ 
+
+    {% if messages %}
+      {% for message in messages %}
+        <p id="messages">{{message}}</p>
+      {% endfor %}
+    {% endif %}
+
+  </section>
+
+
+{% endblock %}

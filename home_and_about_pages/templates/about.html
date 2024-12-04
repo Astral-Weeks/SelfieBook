@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+
+  #homeheader {
+    background-color: aliceblue;
+    width: 100%;
+    margin-bottom: 1%;
+    /* justify-content: stretch; */
+    /* text-align: center; */
+    color: darkblue;
+  }
+
+  h3 {
+    font-size: 2.5em;
+    color: darkblue;
+  }
+
+  h5 {
+    font-size: 1.5em;
+  }
+
+  #faceyourpast, #upload {
+    text-align: center;
+  }
+
+  #maindiv {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #line1, #line2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+
+  #line1left, #line2left {
+    width: 100%;
+    height: 100%;
+    /* border: 3px solid green; */
+  }
+
+  #line1right, #line2right {
+    width: 100%;
+    height: 100%;
+    /* border: 3px solid brown; */
+    text-align: center;
+  }
+
+  #line2right {
+    margin-right: 10%;
+  }
+
+  #block {
+    text-align: center;
+  }
+
+  #mission, #mission-paragraph {
+    text-align: center;
+  }
+
+  #line1-picture {
+    border-radius: 15px;
+  }
+
+  /* #why-picture {
+    margin-left: 20%;
+    border-radius: 15px;
+  } */
+
+</style>
+
+
+<div id="maindiv">
+  <div id="line1">
+    <div id="line1left">      
+      <br>
+      <br>
+      <p id="block">-----------------------------------------------------------------------------
+        <br>
+        -----------------------------------------------------------------------------
+        <br>
+        -----------------------------------------------------------------------------
+        <br>
+        -----------------------------------------------------------------------------
+        <br>
+        -----------------------------------------------------------------------------
+        <br>
+        -----------------------------------------------------------------------------
+        <br>
+        -----------------------------------------------------------------------------
+        <br>
+        -----------------------------------------------------------------------------
+        <br>
+        -----------------------------------------------------------------------------        
+        <br>
+        -----------------------------------------------------------------------------        
+        <br>
+        -----------------------------------------------------------------------------              </p>
+      <!-- <img src="{% static 'img/takingselfiecartoonsmaller.jpg' %}" id="line1-picture" /> -->
+    </div>
+    <div id="line1right">
+      <div>
+        <br><br><br>
+      </div>
+      <div id="homeheader">
+        <h3 id="faceyourpast">So... About Us...</h3>
+      </div>
+      <div>
+        <h5 id="upload">SelfieBook comes to you from the portfolio of AstralWeeks.</h5>
+      </div>
+    </div>
+    </div>
+    <div id="line2">
+      <div id="line2left">
+        <br>
+        <br>
+        <h3 id="mission">Our Mission</h3>
+        <h5 id="mission-paragraph">Taking a daily selfie as a record of a season, year or even decade has become greatly popular online.
+        <br><br>SelfieBook is a small-scaled application designed to show off developer skills. As some people have taken
+        daily photographs every day of their life, as a kind of photographic diary, I thought that an application
+        where people can store these photos would be handy.
+        <br><br>
+        Although it is a portfolio project, it is also quite a useful concept. As such, feel free to
+        document your seasons and years here at SelfieBook, and share them with friends by asking them to
+        signup and link to each other by friend requests.
+          <br><br>
+        SelfieBook is powered by Django. Check out Django at the Django Project website.</h5>
+      </div>
+      <div id="line2right">
+        <div>
+          <br><br><br>
+          <img src="{% static 'img/picture-two-children-taking-picture.jpg' %}" height=300px id="why-picture" />
+        </div>
+        <div>
+
+        </div>            
+      </div>      
+  </div>
+</div>
+
+    <!-- <script>
+      // let why = document.getElementById('why');
+      // why.onclick = function() {
+      //   let whyparagraph = document.getElementById('why-paragraph');
+      //   whyparagraph.hidden = False;
+      // }
+      $(document).ready(function() {
+        $('#why').click(function() {
+          $('#why-paragraph').toggle(2000);
+        });
+      });
+    </script> -->
+
+{% endblock %}
+

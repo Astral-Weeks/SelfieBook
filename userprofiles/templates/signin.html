@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+  button {
+    background-color: #7CB9E8;
+    color: white;
+  }
+</style>
+
+<section>
+    <form action="/signin" method="post">
+        {% csrf_token %}
+
+          <div class="mb-3">
+            <br>
+            <label for="username" class="form-label">Username</label>
+            <input type="username" class="form-control" name="username" aria-describedby="usernameHelp" placeholder="e.g. username123">
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" name="password" placeholder="e.g. password123">
+          </div>
+          <br>
+          <button type="submit" class="btn btn-block">Submit</button>
+          <br>
+         <!-- <input type="submit" value="Submit"> -->
+    </form>
+
+    {% if messages %}
+      {% for message in messages %}
+        <p>{{message}}</p>
+      {% endfor %}
+    {% endif %}
+
+  </section>
+{% endblock %}

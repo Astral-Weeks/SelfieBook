@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+
+  .form-field-div {
+    border: 3px solid #7CB9E8;
+    border-radius: 15px;
+  }
+
+  .uploadheader {
+    margin: auto 0;
+    width: 100%;
+  }
+
+  #uploadheader {
+    background-color: aliceblue;
+    width: 100%;
+    margin-bottom: 1%;
+    /* justify-content: stretch; */
+    text-align: center;
+    color: darkblue;
+  }
+
+  h5 {
+    text-align: center;
+  }
+
+  .info {
+    font-size: 1.2em;
+    margin-left: 5%;
+  }
+
+  #smallerhr {
+    /* float: left; */
+    width: 50%;
+    /* left: 0; */
+    border-top: 2px dashed black;
+  }
+
+  #fileList {
+    margin-left: 5%;
+    /* display: inline-block; */
+  }
+
+  #buttondiv {
+    margin: auto;
+  }
+
+  li {
+    list-style: none;
+  }
+
+  #submit-button {
+    background-color: #7CB9E8;
+    color: white;
+    border-radius: 10px;
+    border-color: grey;
+    padding: 1% 1% 1% 1%;
+    width: 100%;
+    font-size: 1.2em;
+  }
+
+</style>
+
+
+<section>
+  <div class="uploadheader">
+    <div id="uploadheader">
+      <h3>Upload a New Selfie</h3>
+    </div>
+    <br>
+    <div>
+      <h5>You're just a few clicks away...</h5>
+    </div>
+  </div>
+</section>
+<hr>
+<section>
+    
+<form action="{% url 'upload-selfie' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-field-div">
+      <p class="info"><strong>Select a Selfie: </strong>
+        <br>
+      <input name="selfie" type="file" id="fileElem" multiple accept="image/*" style="display:none" />
+        <a href="/newselfie/" id="fileSelect"><button>Select some files</button></a>
+        <div id="fileList">
+          <p>No files selected!</p>
+        </div>
+
+      <!-- <a href="#" id="fileSelect">Select some files</a> -->
+    <!-- <p id="fileElem">{{ form.selfie }}</p>
+     <div id="fileList">
+      <p></p>
+     </div>
+    </div> -->
+    <hr id="smallerhr">
+    <div class="form-field-div">
+    <p class="info"><strong>Date: </strong>
+      <br>
+    {{ form.date }}</p>
+    </div>
+    <hr id="smallerhr">
+    <div class="form-field-div">
+    <p class="info"><strong>Caption: </strong>
+      <br>
+      {{ form.caption }}</p>
+    </div>
+      <hr id="smallerhr">
+    <button type="submit" class="btn btn-block" id="submit-button">POST!</button>
+    <br>
+</form>
+
+
+{% if messages %}
+      {% for message in messages %}
+        <p>{{message}}</p>
+      {% endfor %}
+    {% endif %}
+
+</section>
+
+<script>
+  const fileSelect = document.getElementById("fileSelect"),
+  fileElem = document.getElementById("fileElem"),
+  fileList = document.getElementById("fileList");
+
+fileSelect.addEventListener(
+  "click",
+  (e) => {
+    if (fileElem) {
+      fileElem.click();
+    }
+    e.preventDefault(); // prevent navigation to "#"
+  },
+  false,
+);
+
+fileElem.addEventListener("change", handleFiles, false);
+
+function handleFiles() {
+  fileList.textContent = "";
+  if (!this.files.length) {
+    const p = document.createElement("p");
+    p.textContent = "No files selected!";
+    fileList.appendChild(p);
+  } else {
+    const list = document.createElement("ul");
+    fileList.appendChild(list);
+    for (let i = 0; i < this.files.length; i++) {
+      const li = document.createElement("li");
+      list.appendChild(li);
+
+      const img = document.createElement("img");
+      img.src = URL.createObjectURL(this.files[i]);
+      img.height = 240;
+      img.onload = () => {
+        URL.revokeObjectURL(img.src);
+      };
+      li.appendChild(img);
+      const info = document.createElement("span");
+    }
+  }
+}
+</script>
+
+{% endblock %}

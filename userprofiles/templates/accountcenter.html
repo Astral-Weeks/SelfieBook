@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+
+  .account-settings-div {
+    display: inline-grid;
+    font-size: 1.5em;
+  }
+
+  .selection-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    border: 3px solid  #D0D8DF;
+    border-radius: 15px;
+    width: 100%;
+    /* max-width: 800px; */
+    padding-top: 5px;
+    font-size: 1.5em;
+  }
+
+  .right-div {
+    width: 30%;
+    /* border: 3px solid pink; */
+  }
+
+  .left-div {
+    width: 70%;
+    margin-left: 5%;
+    /* border: 3px solid coral; */
+  }
+
+  .profileheader {
+    width: 100%;
+  }
+
+  #profileheader {
+    background-color: aliceblue;
+    width: 100%;
+    margin-bottom: 1%;
+    text-align: center;
+    color: darkblue;
+  }
+
+  h3 {
+    font-size: 2em;
+  }
+
+  h4 {
+    font-size: 1.75em;
+  }
+
+  #sectiondiv {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #mainform {
+    margin: auto;
+    border: 3px solid orange;
+    width: 75%;
+  }
+
+  #buttondiv {
+    margin: auto;
+  }
+
+  button {
+    background-color: #7CB9E8;
+    color: white;
+    border-radius: 10% 10% 10% 10%;
+    border-color: grey;
+    padding: 1% 1% 1% 1%;
+  }
+
+  #messages {
+    margin: auto;
+    align-content: center;
+    color: #7CB9E8;
+  }
+</style>
+
+<div id="mainprofilediv">
+<section>
+  <div class="profileheader">
+    <div id="profileheader">
+      <h3>Your Profile</h3>
+    </div>
+  </div>
+</section>
+
+<section>
+  {% if request.user.is_authenticated %}
+  
+  <div id="account-settings-div">
+    <h4><img src="{% static 'img/settings.png' %}"/> | Account Settings</h4>
+    <div class="selection-div">
+        <div class="left-div"><a href="{% url 'account-visibility' %}"><p><img src="{% static 'img/visibility.png' %}"> | Account visibility</p></div><div class="right-div"><img src="{% static 'img/right-arrow.png' %}" /></a></div>
+    </div>
+    <div class="selection-div">
+        <div class="left-div"><a href="{% url 'changeprofilepicture' %}"><p><img src="{% static 'img/change-profile-photo.png' %}"> | Change Profile Picture</p></div><div class="right-div"><img src="{% static 'img/right-arrow.png' %}" /></a></div>
+    </div>
+    <div class="selection-div">
+        <div class="left-div"><a href="/accounts/password_change/"><p><img src="{% static 'img/password-reset.png' %}"> | Change Password</p></div><div class="right-div"><img src="{% static 'img/right-arrow.png' %}" /></a></div>
+    </div>
+    <div class="selection-div">
+      <div class="left-div"><a href="/accounts/password_reset/"><p><img src="{% static 'img/password-reset.png' %}"> | Reset Password</p></div><div class="right-div"><img src="{% static 'img/right-arrow.png' %}" /></a></div>
+  </div>
+  </div>
+  <br>
+  <div id="personal-details-div">
+    <h4><img src="{% static 'img/personal-details.png' %}"/> | Personal Details</h4>
+    <div class="selection-div">
+      <div class="left-div"><a href="{% url 'profile' %}"><p><img src="{% static 'img/editprofile.png' %}"> | My Profile</p></div><div class="right-div"><img src="{% static 'img/right-arrow.png' %}" /></a></div>
+    </div>
+    <div class="selection-div">
+      <div class="left-div"><a href="{% url 'see-your-selfies' %}"><p><img src="{% static 'img/gallery.png' %}"> | My Current Gallery</p></div><div class="right-div"><img src="{% static 'img/right-arrow.png' %}" /></a></div>
+    </div>
+  </div>
+  <br>
+  <div id="friends-div">
+    <h4><img src="{% static 'img/personal-details.png' %}"/> | Friends</h4>
+    <div class="selection-div">
+      <div class="left-div"><a href="{% url 'friend-requests' %}"><p><img src="{% static 'img/editprofile.png' %}"> | Friend Requests</p></div><div class="right-div"><img src="{% static 'img/right-arrow.png' %}" /></a></div>
+    </div>
+    <div class="selection-div">
+      <div class="left-div"><a href="{% url 'myfriends' %}"><p><img src="{% static 'img/friends.png' %}" /> | My Friends</p></div><div class="right-div"><img src="{% static 'img/right-arrow.png' %}" /></a></div>
+    </div>
+    <div class="selection-div">
+      <div class="left-div"><a href="{% url 'find-friends' %}"><p><img src="{% static 'img/find-friends.png' %}" /> | Search for Friends</p></div><div class="right-div"><img src="{% static 'img/right-arrow.png' %}" /></a></div>
+    </div>
+  </div>
+  {% endif %}
+</section>
+
+
+    <div id="messages">
+      {% if messages %}
+      {% for message in messages %}
+        <p id="p-message">{{message}}</p>
+      {% endfor %}
+      {% endif %}
+    </div>
+</section>
+
+<div>
+
+</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+  #message-div {
+    text-align: center;
+    font-size: 1.4em;
+    color: rosybrown;
+    font-weight: 600;
+  }
+</style>
+
+<div id="message-div">
+<p>
+  <br>
+  <br>
+  {% for i in messages %}
+    {{ i }}
+  {% endfor %}
+  <br>
+  <br>
+</p>
+</div>
+
+  {% endblock %}

@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+  form, h5, p, .username {
+    /* text-align: center; */
+    margin-left: 15%;
+    font-size: 1.3em;
+  }
+
+  input {
+    width: 40vw;
+  }
+
+  .profileheader {
+    width: 100%;
+  }
+
+  #profileheader {
+    background-color: aliceblue;
+    width: 100%;
+    margin-bottom: 1%;
+    /* text-align: center; */
+    margin-left: 15%;
+    color: darkblue;
+  }
+
+  .profile-div {
+    display: flex;
+    justify-content: space-evenly;
+    /* border: 3px solid blue; */
+  }
+
+  .left-div {
+    width: 20%;
+    height: 100%;
+  }
+
+  .right-div {
+    width: 80%;
+    height: 100%;
+  }
+
+  .profile-picture {
+    height: 100px;
+    width: 78px;
+    border-radius: 45px;
+  }
+
+  .username {
+    color: darkblue;
+  }
+
+  #searchbutton {
+    border-color: white;
+    background-color: #7CB9E8;
+    color: white;
+  }
+
+  .requestbutton {
+    border-radius: 15px;
+    border-color: white;
+    background-color: #7CB9E8;
+    color: white;
+  }
+
+  #no_user_found_message {
+    margin-left: 15%;
+    font-size: 1.4em;
+    color: rosybrown;
+    font-weight: 600;
+  }
+
+</style>
+
+<div class="profileheader">
+  <div id="profileheader">
+    <h3>Find a Friend</h3>
+  </div>
+  <hr>
+  <h5>Type a friend's name to see if they have a public account</h5>
+</div>
+<form action="/find-friends-results" method=POST>
+  {% csrf_token %}
+    <input type="search" name="searchedforname" />
+    <a href="/find-friends-results"><button id="searchbutton" type="submit">Search</button></a>
+</form>
+<br>
+<hr>
+<div>
+  {% for j in friendtoadd.friendtoadd %}
+  {{ j }}
+  {% endfor %}
+</div>
+
+<div>
+  {% for i in res %}
+  {% if i.publicaccount == True %}
+  {% with person=i.user.id %}
+  {% with friend=i.user %}
+  <div class="profile-div">
+    <div class="left-div">
+    <h4 class="username">{{ i.user.username }}</h4>
+    <p>{{ i.fullname }}</p>
+    <p>{{ person }}</p>
+    <br>
+    <!-- <a href="{% url 'add-friend' %}"> -->
+      <form method="POST" action="{% url 'add-friend' %}">
+        {% csrf_token %}
+        <button class="requestbutton" name="newfriend" value="{{ person }}" type="submit">Send Friend Request</button>
+      </form>
+    <!-- </a> -->
+    </div>
+    <!-- <p>{{ i.profilepicture }}</p> -->
+    <!-- <img src="{% static 'img/unknown-user.png' %}" /> -->
+      <div class="right-div">
+        <img src="{{ i.profilepicture.url }}" class="profile-picture img-responsive img-fluid img-thumbnail" />
+      </div>
+    </div>
+    <hr>
+  {% endwith %}
+  {% endwith %}
+  {% endif %}
+  {% endfor %}
+
+  {% if res|length == 0 %}
+  <br>
+  <p id="no_user_found_message">No users matching the search criteria found</p>
+  <br>
+  <br>
+  {% endif %}
+
+</div>
+
+    <div id="messages">
+      {% if messages %}
+      {% for message in messages %}
+        <p id="p-message">{{message}}</p>
+      {% endfor %}
+      {% endif %}
+    </div>
+
+{% endblock %}

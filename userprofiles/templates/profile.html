@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+
+  .profileheader {
+    width: 100%;
+  }
+
+  #profileheader {
+    background-color: aliceblue;
+    width: 100%;
+    margin-bottom: 1%;
+    text-align: center;
+    color: darkblue;
+  }
+
+  #sectiondiv {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #profile-details-div {
+    border: 3px solid #7CB9E8;
+    border-radius: 15px;
+    font-size: 1.5em;
+  }
+
+  .profile-info {
+    font-weight: 100;
+    margin-left: 15%;
+  }
+
+  #mainform {
+    margin: auto;
+    border: 3px solid orange;
+    width: 75%;
+  }
+
+  #buttondiv {
+    margin: auto;
+  }
+
+  button {
+    background-color: #7CB9E8;
+    color: white;
+    border-radius: 10px 10px 10px 10px;
+    border-color: grey;
+    padding: 1% 1% 1% 1%;
+    width: 100%;
+    font-size: 1.3em;
+  }
+
+  #messages {
+    margin: auto;
+    align-content: center;
+    color: #7CB9E8;
+  }
+
+  #profilepic {
+    border-radius: 15px;
+    border: 3px solid #7CB9E8;
+  }
+</style>
+
+<section>
+  <div class="profileheader">
+    <div id="profileheader">
+      <h3>Your Profile</h3>
+    </div>
+  </div>
+</section>
+
+
+<section>
+  <div id="profile-details-div">
+  {% if request.user.is_authenticated %}
+    <br>
+    <p class="profile-info"><strong>First Name: </strong>{{ profile.first_name }}</p>
+    <hr>
+    <p class="profile-info"><strong>Surname: </strong>{{ profile.last_name }}</p>
+    <hr>
+    <p class="profile-info"><strong>Location: </strong>{{ profile.location }}</p>
+    <hr>
+    <p class="profile-info"><strong>Birthday: </strong>{{ profile.birthday }}</p>
+    <hr>
+    <p class="profile-info"><strong>Profile Picture: </strong><img id="profilepic" src="{{ profile.profilepicture.url }}" class="profile-picture img-responsive img-fluid img-thumbnail" height="300px" width="150px" /></p>
+  {% endif %}
+  </div>
+</section>
+<br>
+<!-- <form action="/create-profile/"> -->
+  <a href="/create-profile/"><button>Edit Profile</button></a>
+<!-- </form> -->
+
+<!-- <div id="account-settings-div">
+  <h4><img src="{% static 'img/settings.png' %}"/> | Profile</h4>
+  <div class="selection-div">
+      <div><p><img src="{% static 'img/visibility.png' %}">First Name | {{ profile.first_name }}</p></div><div><img src="{% static 'img/right-arrow.png' %}" /></div>
+  </div>
+  <div class="selection-div">
+      <div><p><img src="{% static 'img/change-profile-photo.png' %}"> | Change Profile Picture</p></div><div><img src="{% static 'img/right-arrow.png' %}" /></div>
+  </div>
+  <div class="selection-div">
+      <div><p><img src="{% static 'img/password-reset.png' %}"> | Change Password</p></div><div><img src="{% static 'img/right-arrow.png' %}" /></div>
+  </div>
+</div> -->
+
+
+    <div id="messages">
+      {% if messages %}
+      {% for message in messages %}
+        <p id="p-message">{{message}}</p>
+      {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<div>
+
+</div>
+
+{% endblock %}

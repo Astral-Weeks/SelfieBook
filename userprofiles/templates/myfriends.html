@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+  form, h5, p, .username {
+    /* text-align: center; */
+    margin-left: 15%;
+    font-size: 1.3em;
+  }
+
+  input {
+    width: 40vw;
+  }
+
+  .profileheader {
+    width: 100%;
+  }
+
+  #profileheader {
+    background-color: aliceblue;
+    width: 100%;
+    margin-bottom: 1%;
+    /* text-align: center; */
+    margin-left: 15%;
+    color: darkblue;
+  }
+
+  .profile-div {
+    display: flex;
+    justify-content: space-evenly;
+    /* border: 3px solid blue; */
+  }
+
+  .left-div {
+    width: 20%;
+    height: 100%;
+  }
+
+  .right-div {
+    width: 80%;
+    height: 100%;
+  }
+
+  .profile-picture {
+    height: 100px;
+    width: 78px;
+    border-radius: 45px;
+  }
+
+  .username {
+    color: darkblue;
+  }
+
+  #searchbutton {
+    border-color: white;
+    background-color: #7CB9E8;
+    color: white;
+  }
+
+  .buttons-div {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    /* border: 3px solid blue; */
+  }
+
+  .requestbutton {
+    border-radius: 15px;
+    border-color: white;
+    background-color: #7CB9E8;
+    color: white;
+  }
+
+  .no-friends-messages {
+    margin-left: 15%;
+    font-size: 1.4em;
+    color: rosybrown;
+    font-weight: 600;
+  }
+
+</style>
+
+
+{% if myfriends|length > 0 %}
+
+<div>
+  <br>
+    {% for item in myfriends %}
+    {% with person=item.friend.id %}
+    {% with friend=item.friend.user.id %}
+    {% with j=item.friend.user %}
+
+    <div class="profile-div">
+      <div class="left-div">
+      <h4 class="username">{{ item.friend.user }}</h4>
+      <br>
+      <!-- <a href="{% url 'add-friend' %}"> -->
+        <div class="buttons-div">
+          <div>
+            <form method="POST" action="{% url 'friendprofile' %}">
+            {% csrf_token %}
+            <button class="requestbutton" name="friendprofilebutton" value="{{ friend }}" type="submit">Profile</button>
+            </form>
+          </div>
+          <div>
+            <form method="POST" action="{% url 'unfriendconfirmation' %}">
+              {% csrf_token %}
+            <button class="requestbutton" name="unfriendconfirmationbutton" value="{{ person }}" type="submit">Unfriend</button>
+          </form>
+          </div>
+        </div>
+      <!-- </a> -->
+      </div>
+      <!-- <p>{{ i.profilepicture }}</p> -->
+      <!-- <img src="{% static 'img/unknown-user.png' %}" /> -->
+        <div class="right-div">
+          {% for i in people %}
+          {% if i.user.id == friend %}
+          <img src="{{ i.profilepicture.url }}" class="profile-picture img-responsive img-fluid img-thumbnail" />
+          {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      <hr>
+    {% endwith %}
+    {% endwith %}
+    {% endwith %}
+    {% endfor %}
+</div>
+
+{% else %}
+
+<div>
+  <br>
+  <br>
+  <p class="no-friends-messages">You have no friends at the moment.</p>
+  <br>
+  <p class="no-friends-messages">Why not search for some?</p>
+  <br>
+  <br>
+ 
+</div>
+
+{% endif %}
+
+
+{% endblock %}

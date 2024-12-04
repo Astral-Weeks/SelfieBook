@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+
+  #homeheader {
+    background-color: aliceblue;
+    width: 100%;
+    margin-bottom: 1%;
+    /* justify-content: stretch; */
+    /* text-align: center; */
+    color: darkblue;
+  }
+
+  h3 {
+    font-size: 2.5em;
+    color: darkblue;
+  }
+
+  h5 {
+    font-size: 1.5em;
+  }
+
+  #faceyourpast, #upload {
+    text-align: center;
+  }
+
+  #maindiv {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #line1, #line2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    /* border: 3px solid pink; */
+  }
+
+  #line1left {
+    width: 100%;
+    height: 100%;
+    /* border: 3px solid green; */
+  }
+
+  #line2left {
+    width: 50%;
+    height: 100%;
+    /* border: 3px solid green; */
+  }
+
+  #line1right {
+    width: 100%;
+    height: 100%;
+    /* border: 3px solid brown; */
+    text-align: center;
+  }
+
+  #line2right {
+    width: 50%;
+    height: 100%;
+    /* border: 3px solid brown; */
+    text-align: center;
+    margin-right: 10%;
+  }
+
+  #why-paragraph {
+    text-align: center;
+  }
+
+  #line1-picture {
+    border-radius: 15px;
+  }
+
+  #why-picture {
+    margin-left: 5%;
+    border-radius: 15px;
+    width: 90%;
+    height: 100%;
+  }
+
+</style>
+
+
+<div id="maindiv">
+  <div id="line1">
+    <div id="line1left">
+      <div>
+        <br><br><br>
+      </div>
+      <div id="homeheader">
+        <h3 id="faceyourpast">Face Your Past!</h3>
+      </div>
+      <div>
+        <h5 id="upload">Upload a daily or weekly selfie. Watch how you change over the seasons and years!</h5>
+      </div>
+    </div>
+    <div id="line1right">
+      <br>
+      <br>
+      <img src="{% static 'img/takingselfiecartoonsmaller.jpg' %}" id="line1-picture" />
+    </div>
+    </div>
+
+    <div id="line2">
+      <div id="line2left">
+        <div>
+          <br><br><br>
+          <img src="{% static 'img/picture-two-children-taking-picture.jpg' %}" height=300px id="why-picture" />
+        </div>
+        <div>
+          
+        </div>
+      </div>
+      <div id="line2right">
+        <br>
+        <br>
+        <h3 id="why">Why?</h3>
+        <h5 id="why-paragraph">Taking a daily selfie as a record of a season, year or even decade has become greatly popular online.
+        <br><br>Why waste time flicking back through old photo folders, social media accounts or the device that you
+          soon need to replace?
+          <br><br>SelfieBook is designed specifically as a catch-all place for your daily or weekly selfies.
+          Just upload, and replay whenever you need.</h5>
+      </div>
+  </div>
+  <br>
+  <br>
+</div>
+
+    <!-- <script>
+      // let why = document.getElementById('why');
+      // why.onclick = function() {
+      //   let whyparagraph = document.getElementById('why-paragraph');
+      //   whyparagraph.hidden = False;
+      // }
+      $(document).ready(function() {
+        $('#why').click(function() {
+          $('#why-paragraph').toggle(2000);
+        });
+      });
+    </script> -->
+
+{% endblock %}
