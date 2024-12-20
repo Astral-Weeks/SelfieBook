@@ -13,7 +13,7 @@ class Profile(models.Model):
     location = models.CharField(max_length=255, default="SelfieBook")
     birthday = models.DateField(null=True)
     publicaccount = models.BooleanField(default=True)
-    profilepicture = models.ImageField(upload_to="images/", default="images/unknown-user.png")
+    profilepicture = models.ImageField(upload_to="staticfiles/img/", default="staticfiles/img/unknown-user.png")
     # privacysettings = models.ForeignKey(PrivacySettings, on_delete=models.CASCADE)
 
     def __str__(self):
