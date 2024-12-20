@@ -95,7 +95,7 @@ database_url = os.environ.get("DATABASE_URL")
 DATABASES["default"] = dj_database_url.parse(database_url)
 
 
-MEDIA_URL = '/media/'
+# MEDIA_URL = '/media/'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -131,7 +131,7 @@ USE_TZ = True
 # Media Fiels Configuration
 
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+MEDIA_URL = '/staticfiles/'
 
 
 # Static files (CSS, JavaScript, Images)
