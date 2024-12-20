@@ -1,18 +1,21 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from .models import Selfies, Profile, FriendJunctionTable, FriendRequestJunctionTable, FriendRequests, Friends, Notification, NotifierJunctionTable
+from django.db.models import QuerySet
+from .models import Selfies, Profile, FriendJunctionTable, FriendRequestJunctionTable, FriendRequests, Friends, Notification, NotifierJunctionTable, FriendPhotoNotification
 from .forms import SignUpForm, UploadSelfieForm, CreateProfileForm
 from rest_framework.permissions import IsAuthenticated
 from django.contrib import messages
 from django.views.generic import FormView
 from django.http import HttpResponse
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, PasswordResetForm, SetPasswordForm
 from django.contrib.auth.models import User
+from django.contrib.auth.views import PasswordChangeView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, TemplateView
 from django.db.models.functions import Concat
 from django.db.models import CharField, Value
+from django.contrib.messages.views import SuccessMessageMixin
 
 
 #///////////////////////////////// SIGNIN / SIGNOUT /////////////////////////////////
@@ -54,6 +57,12 @@ def checkusername(request):
     else:
         return HttpResponse("<div style='color: green;'>This username is available</div>")
 
+def checkemail(request):
+    email = request.POST.get('email')
+    if get_user_model().objects.filter(email=email):
+        return HttpResponse("<div style='color: red;'>This email already exists</div>")
+    else:
+        return HttpResponse("<div style='color: green;'>This email is available</div>")
 
 def AccountCenter(request):
     return render(request, 'accountcenter.html')
@@ -90,7 +99,7 @@ class CreateProfile(CreateView):
             try:
                 j = Profile.objects.get(user=user)
             except:
-                j, created = Profile.objects.get_or_create(user=user, first_name="", last_name="", birthday="2024-01-01", profilepicture="images/unknown-user.png")
+                j, created = Profile.objects.get_or_create(user=user, first_name="", last_name="", birthday="2024-01-01")
             # k = Profile(user=user)
             f = CreateProfileForm(request.POST, request.FILES, instance=j)
             if f.is_valid():
@@ -104,6 +113,30 @@ class CreateProfile(CreateView):
         return render(request, "createprofile.html", context)
 
 
+class PasswordChangeView(SuccessMessageMixin, PasswordChangeView):
+    form_class = PasswordChangeForm
+    success_url = reverse_lazy('account-center')
+    template_name = "changepassword.html"
+    success_message = "Your Password Has Been Changed Successfully"
+
+class PasswordResetView(SuccessMessageMixin, PasswordResetView):
+    form_class = PasswordResetForm
+    success_url = reverse_lazy('account-center')
+    template_name = "changepassword.html"
+    success_message = "An email has been sent to your email address. It will help you reset your password"
+
+class PasswordResetDoneView(PasswordResetDoneView):
+    success_url = reverse_lazy('account-center')
+    template_name = "passwordresetdone.html"
+
+class PasswordResetConfirmView(PasswordResetConfirmView):
+    success_url = reverse_lazy('signin')
+    form_class = SetPasswordForm
+    template_name = 'password_reset_confirm.html'
+    success_message = "Your password has been changed successfully"
+
+# class PasswordResetCompleteView(PasswordResetCompleteView):
+    # success_url = reverse_lazy('')
 
 #///////////////////////////////// PROFILE /////////////////////////////////
 
@@ -127,20 +160,24 @@ def updatedsettings(request, *args, **kwargs):
         if a == "false":
             currentsettings.publicaccount = False
             currentsettings.save()
+            messages.success(request, "You have updated your privacy settings.")
             return render(request, 'accountcenter.html', {"currentsettings": currentsettings})
         else:
             currentsettings.publicaccount = True
             currentsettings.save()
+            messages.success(request, "You have updated your privacy settings.")
             return render(request, 'accountcenter.html', {"currentsettings": currentsettings})
     except:
         currentsettings = Profile.objects.create(user=user, publicaccount=False)
         if a == "false":
             currentsettings.publicaccount = False
             currentsettings.save()
+            messages.success(request, "You have updated your privacy settings.")
             return render(request, 'accountcenter.html', {"currentsettings": currentsettings})
         elif a == "true":
             currentsettings.publicaccount = True
             currentsettings.save()
+            messages.success(request, "You have updated your privacy settings.")
             return render(request, 'accountcenter.html', {"currentsettings": currentsettings})
 
 class ChangeProfilePicture(CreateView):
@@ -162,6 +199,7 @@ class ChangeProfilePicture(CreateView):
             profile.save()
             messages.success(request, "Your profile picture has been updated. Rock on.")
             return render(request, 'changeprofilepicture.html', {})
+
 
 
 
@@ -205,7 +243,11 @@ class UploadSelfie(CreateView):
                 f.save(commit=False)
                 f.user = request.user
                 f.save()
+                # currentselfie = currentuser.selfie
                 messages.success(request, 'Awesome! You have updated your gallery!')
+                # Attempt to make notifications
+                FriendPhotoNotification.objects.create(user=user, selfie=currentuser, message=" has just uploaded a new selfie!")
+                ################
             else:
                 messages.error(request, 'Uh-oh. Something went wrong... Maybe you can try again.')
 
@@ -409,11 +451,50 @@ def friendprofile(request):
 def notifications(request):
     notifica = Notification.objects.filter(user=request.user)
     notifications = notifica.filter(is_read=False)
-    return render(request, 'notifications.html', {'notifications': notifications})
+    friends = Friends.objects.filter(user=request.user, friendstatus=True)
+    empty_queryset = FriendPhotoNotification.objects.none()
+    for person in friends:
+        if person.friendstatus is True:
+            photonotifications = FriendPhotoNotification.objects.filter(user=person.friend.user, is_read=False)
+            empty_queryset = empty_queryset | photonotifications
+    return render(request, 'notifications.html', {'notifications': notifications, 'photonotifications': empty_queryset})
 
-def mark_unread(request):
+# for users in friends
+# filter photonotifications
+
+def mark_read(request):
     update = request.POST.get('update')
     noti = Notification.objects.get(id=update)
     noti.is_read = True
     noti.save()
+    noti.delete()
+    return redirect('notifications')
+
+def mark_photo_read(request):
+    update = request.POST.get('photo-update')
+    noti = FriendPhotoNotification.objects.get(id=update)
+    noti.is_read = True
+    noti.save()
+    noti.delete()
+    return redirect('notifications')
+
+def mark_all_read(request):
+    update = request.POST.get('mark-all-read')
+    # friend request notifications
+    notifics = Notification.objects.filter(user=request.user)
+    for item in notifics:
+        item.is_read = True
+        item.save()
+        item.delete()
+    # photo notifications
+    friends = Friends.objects.filter(user=request.user, friendstatus=True)
+    empty_queryset = FriendPhotoNotification.objects.none()
+    for person in friends:
+        if person.friendstatus is True:
+            photonotifications = FriendPhotoNotification.objects.filter(user=person.friend.user, is_read=False)
+            empty_queryset = empty_queryset | photonotifications
+    for item in empty_queryset:
+        item.is_read = True
+        item.save()
+        item.delete()
     return redirect('notifications')

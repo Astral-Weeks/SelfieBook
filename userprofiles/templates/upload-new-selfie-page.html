@@ -62,6 +62,13 @@
     font-size: 1.2em;
   }
 
+  .messages {
+    margin-left: 15%;
+    font-size: 1.4em;
+    color: rosybrown;
+    font-weight: 600;
+  }
+
 </style>
 
 
@@ -116,7 +123,7 @@
 
 {% if messages %}
       {% for message in messages %}
-        <p>{{message}}</p>
+        <p class="messages">{{message}}</p>
       {% endfor %}
     {% endif %}
 

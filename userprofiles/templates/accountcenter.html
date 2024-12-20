@@ -75,13 +75,27 @@
     padding: 1% 1% 1% 1%;
   }
 
-  #messages {
-    margin: auto;
+  #p-message {
+    /* margin: auto; */
     align-content: center;
-    color: #7CB9E8;
+    text-align: center;
+    /* color: #7CB9E8; */
+    /* margin-left: 15%; */
+    font-size: 1.4em;
+    color: rosybrown;
+    font-weight: 600;
   }
 </style>
 
+<div id="messages">
+  {% if messages %}
+  {% for message in messages %}
+  <br>
+    <p id="p-message">{{message}}</p>
+  {% endfor %}
+  {% endif %}
+</div>
+<br>
 <div id="mainprofilediv">
 <section>
   <div class="profileheader">
@@ -90,7 +104,7 @@
     </div>
   </div>
 </section>
-
+<br>
 <section>
   {% if request.user.is_authenticated %}
   
@@ -103,10 +117,10 @@
         <div class="left-div"><a href="{% url 'changeprofilepicture' %}"><p><img src="{% static 'img/change-profile-photo.png' %}"> | Change Profile Picture</p></div><div class="right-div"><img src="{% static 'img/right-arrow.png' %}" /></a></div>
     </div>
     <div class="selection-div">
-        <div class="left-div"><a href="/accounts/password_change/"><p><img src="{% static 'img/password-reset.png' %}"> | Change Password</p></div><div class="right-div"><img src="{% static 'img/right-arrow.png' %}" /></a></div>
+        <div class="left-div"><a href="{% url 'changepassword' %}"><p><img src="{% static 'img/password-reset.png' %}"> | Change Password</p></div><div class="right-div"><img src="{% static 'img/right-arrow.png' %}" /></a></div>
     </div>
     <div class="selection-div">
-      <div class="left-div"><a href="/accounts/password_reset/"><p><img src="{% static 'img/password-reset.png' %}"> | Reset Password</p></div><div class="right-div"><img src="{% static 'img/right-arrow.png' %}" /></a></div>
+      <div class="left-div"><a href="{% url 'resetpassword' %}"><p><img src="{% static 'img/password-reset.png' %}"> | Reset Password</p></div><div class="right-div"><img src="{% static 'img/right-arrow.png' %}" /></a></div>
   </div>
   </div>
   <br>
@@ -135,15 +149,6 @@
   {% endif %}
 </section>
 
-
-    <div id="messages">
-      {% if messages %}
-      {% for message in messages %}
-        <p id="p-message">{{message}}</p>
-      {% endfor %}
-      {% endif %}
-    </div>
-</section>
 
 <div>
 

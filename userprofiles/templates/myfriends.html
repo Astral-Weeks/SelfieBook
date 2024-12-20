@@ -3,7 +3,7 @@
 {% block content %}
 
 <style>
-  form, h5, p, .username {
+  h5, p, .username {
     /* text-align: center; */
     margin-left: 15%;
     font-size: 1.3em;
@@ -33,12 +33,12 @@
   }
 
   .left-div {
-    width: 20%;
+    width: 50%;
     height: 100%;
   }
 
   .right-div {
-    width: 80%;
+    width: 50%;
     height: 100%;
   }
 
@@ -50,6 +50,8 @@
 
   .username {
     color: darkblue;
+    font-size: 1.4em;
+    border-bottom: 1px solid #7CB9E8;
   }
 
   #searchbutton {
@@ -63,6 +65,14 @@
     justify-content: space-evenly;
     flex-direction: row;
     /* border: 3px solid blue; */
+    /* width: 100%; */
+  }
+
+  /* NEEDS SEPARATE SUB-DIVS FOR BUTTONS TO FILL SPACE */
+
+  .buttons-div-left, .buttons-div-right {
+    /* border: 3px solid red; */
+    width: 50%;
   }
 
   .requestbutton {
@@ -70,6 +80,8 @@
     border-color: white;
     background-color: #7CB9E8;
     color: white;
+    width: 100%;
+    font-size: medium;
   }
 
   .no-friends-messages {
@@ -97,13 +109,13 @@
       <br>
       <!-- <a href="{% url 'add-friend' %}"> -->
         <div class="buttons-div">
-          <div>
+          <div class="buttons-div-left">
             <form method="POST" action="{% url 'friendprofile' %}">
             {% csrf_token %}
             <button class="requestbutton" name="friendprofilebutton" value="{{ friend }}" type="submit">Profile</button>
             </form>
           </div>
-          <div>
+          <div class="buttons-div-right">
             <form method="POST" action="{% url 'unfriendconfirmation' %}">
               {% csrf_token %}
             <button class="requestbutton" name="unfriendconfirmationbutton" value="{{ person }}" type="submit">Unfriend</button>

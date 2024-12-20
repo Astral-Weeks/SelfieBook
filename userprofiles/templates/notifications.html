@@ -3,18 +3,23 @@
 {% block content %}
 
 <style>
-    form, h5, p, .username, .messages {
+    #mark-all-read-form, h5, p, .username {
       /* text-align: center; */
       margin-left: 15%;
       font-size: 1.3em;
     }
 
-    h4 {
+    h3, h4 {
       margin-left: 8%;
     }
   
     input {
       width: 40vw;
+    }
+
+    #mark-all-read-form {
+      /* border: 3px solid purple; */
+      padding: -2px -10px -2px -10px;
     }
   
     .profileheader {
@@ -62,6 +67,15 @@
       color: white;
     }
 
+    .messages {
+      list-style: circle;
+      font-size: 1.3em;
+    }
+
+    .message-form {
+      font-size: 1.2em;
+    }
+
     .notification-div {
         border: 3px solid #7CB9E8;
     }
@@ -73,6 +87,19 @@
       color: white;
       margin-left: 5%;
     }
+
+    #mark-all-read {
+      width: 75%;
+      border-radius: 10px;
+    }
+
+    .inlineblockbutton {
+      display: inline-block;
+      background-color: none;
+      border: none;
+      color: #7CB9E8;
+      /* outline-style: none; */
+    }
   
     #no_user_found_message {
       margin-left: 15%;
@@ -80,9 +107,25 @@
       color: rosybrown;
       font-weight: 600;
     }
+
+  .newselfie {
+    height: 100px;
+    width: 78px;
+    border-radius: 15px;
+  }
   
   </style>
 
+<section id="main-section">
+<br>
+<hr>
+<h3><strong>Notifications</strong></h3>
+<hr>
+<form id="mark-all-read-form" action="mark-all-read" method="POST">
+  {% csrf_token %}
+  <button class="notificationbutton" id="mark-all-read" name="mark-all-read">Mark All Read</button>
+</form>
+<hr>
 <section>
     <br>
     <h4><strong>Friend Requests</strong></h4>
@@ -91,14 +134,39 @@
         <div class="notification-div">
             <br>
             <li class="messages">{{ i.message }} <strong><em>{{ i.notifier.user.username}}</strong></em>, <a href='/friend-requests/'>here</a></li>
-            <form action="mark-unread" method="POST">
+            <form class="message-form" action="mark-read" method="POST">
                 {% csrf_token %}
-                <button class="notificationbutton" name="update" value="{{i.id}}">Mark Unread</button>
+                <button class="notificationbutton" name="update" value="{{i.id}}">Mark Read</button>
             </form>
             <br>
         </div>
     {% endfor %}
     <br>
+</section>
+<br>
+<section>
+  <br>
+  <h4><strong>Friend Selfies</strong></h4>
+  <hr>
+  {% for i in photonotifications %}
+      <div class="notification-div">
+          <br>
+          <!-- <li class="messages"><strong><em>{{ i.user.username }}</em></strong>{{ i.message }} Check it out, <form action="{% url 'friendprofile' %}" method="POST" style="display: inline">{% csrf_token %}<button class="inlineblockbutton" name="friendprofilebutton" value="{{i.user.id}}"><a href='/friendprofile'></a>here</button></form><img src="{{ i.selfie.selfie.url }}" class="newselfie img-fluid img-thumbnail" /></li> -->
+          <li class="messages"><strong><em>{{ i.user.username }}</em></strong>{{ i.message }} <form action="{% url 'friendprofile' %}" method="POST" style="display: inline">{% csrf_token %}<button type="submit" class="inlineblockbutton newselfie img-fluid img-thumbnail" name="friendprofilebutton" value="{{i.user.id}}"><img class="inlineblockbutton newselfie img-fluid img-thumbnail" src="{{ i.selfie.selfie.url }}" /></button></form></li>
+          <form class="message-form" action="mark-selfie-read" method="POST">
+              {% csrf_token %}
+              <button class="notificationbutton" name="photo-update" value="{{i.id}}">Mark Read</button>
+          </form>
+          <br>
+      </div>
+  {% endfor %}
+  <br>
+</section>
+<br>
+<hr>
+<hr>
+<br>
+<br>
 </section>
 
 {% endblock %}

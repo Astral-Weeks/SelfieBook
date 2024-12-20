@@ -26,16 +26,6 @@
         font-size: 5em;
     }
 
-    .top-button {
-        background-color: #7CB9E8;
-        border-radius: 10px;
-        border-color: white;
-        color: white;
-        margin-right: 10%;
-        padding: 10px 30px 10px 30px;
-        font-size: 1.3em;
-    }
-
     .button-div-parent {
         display: flex;
         justify-content: space-evenly;
@@ -48,6 +38,7 @@
         /* margin-left: 40%; */
         width: 100%;
         display: flex;
+        flex-direction: row;
         justify-content: space-evenly;
         /* border: 3px solid pink; */
     }
@@ -58,12 +49,28 @@
     } */
 
     #button-div {
-        /* display: flex; */
-        /* justify-content: space-evenly; */
-        /* flex-direction: row; */
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: row;
         margin-left: 70%;
         /* border: 3px solid brown; */
         /* width: 50%; */
+    }
+
+    .button-sub-div {
+        width: 50%;
+        /* border: 3px solid yellow; */
+    }
+
+    .top-button {
+        background-color: #7CB9E8;
+        border-radius: 10px;
+        border-color: white;
+        color: white;
+        margin-right: 10%;
+        padding: 10px 30px 10px 30px;
+        font-size: 1.3em;
+        width: 100%;
     }
 
     #disclaimer {
@@ -76,26 +83,42 @@
         margin-top: 0;
         margin-bottom: 0;
         border-top: 4px solid lightblue;
-    }
-    
+    }    
 </style>
+
 <header>
     <!-- phones -->
     <div class="col-sm-2 visible-sm visible-xs hidden-md hidden-lg button-div-parent">
         <div id="button-div-small">
         {% if user.is_authenticated %}
-        {% if notifications|length > 0 %}
-        {% with number=notifications|length %}
-        <a href="/notifications"><button class="top-button">{{ number }}<img src="{% static 'img/notification.png' %}" /></button></a>
-        <a href="/signout"><button class="top-button">Logout</button></a>
+        {% if notifications|length > 0 or photonotifications|length > 0 %}
+        {% with num=notifications|length %}
+        {% with num2=photonotifications|length %}
+        {% with number=notifications|length|add:num2 %}
+        <div class="button-sub-div">
+            <a href="/notifications"><button class="top-button">{{ number }}<img src="{% static 'img/notification.png' %}" /></button></a>
+        </div>
+        <div class="button-sub-div">
+            <a href="/signout"><button class="top-button">Logout</button></a>
+        </div>
+        {% endwith %}
+        {% endwith %}
         {% endwith %}
         {% else %}
-        <a href="/notifications"><button class="top-button">  Hi {{user.username}}  </button></a>
-        <a href="/signout"><button class="top-button">Logout</button></a>
+        <div class="button-sub-div">
+            <a href="/notifications"><button class="top-button">  Hi {{user.username}}  </button></a>
+        </div>
+        <div class="button-sub-div">
+            <a href="/signout"><button class="top-button">Logout</button></a>
+        </div>
         {% endif %}
         {% else %}
-        <a href="/register/"><button class="top-button">Join </button></a>
-        <a href="/signin"><button class="top-button">Login</button></a>
+        <div class="button-sub-div">
+            <a href="/register/"><button class="top-button">Join </button></a>
+        </div>
+        <div class="button-sub-div">
+            <a href="/signin"><button class="top-button">Login</button></a>
+        </div>
         {% endif %}
         </div>
     </div>
@@ -108,18 +131,34 @@
         </div> -->
         <div id="button-div">
         {% if user.is_authenticated %}
-        {% if notifications|length > 0 %}
+        {% if notifications|length > 0 or photonotifications|length > 0 %}
         {% with number=notifications|length %}
-        <a href="/notifications"><button class="top-button">{{ number }}<img src="{% static 'img/notification.png' %}" /></button></a>
-        <a href="/signout"><button class="top-button">Logout</button></a>
+        {% with photonumber=photonotifications|length %}
+        {% with total=number|add:photonumber %}
+        <div class="button-sub-div">
+            <a href="/notifications"><button class="top-button">{{ total }}<img src="{% static 'img/notification.png' %}" /></button></a>
+        </div>
+        <div class="button-sub-div">
+            <a href="/signout"><button class="top-button">Logout</button></a>
+        </div>
+        {% endwith %}
+        {% endwith %}
         {% endwith %}
         {% else %}
-        <a href="/notifications"><button class="top-button">  Hi {{user.username}}  </button></a>
-        <a href="/signout"><button class="top-button">Logout</button></a>
+        <div class="button-sub-div">
+            <a href="/notifications"><button class="top-button">  Hi {{user.username}}  </button></a>
+        </div>
+        <div class="button-sub-div">
+            <a href="/signout"><button class="top-button">Logout</button></a>
+        </div>
         {% endif %}
         {% else %}
-        <a href="/register/"><button class="top-button">Join </button></a>
-        <a href="/signin"><button class="top-button">Login</button></a>
+        <div class="button-sub-div">
+            <a href="/register/"><button class="top-button">Join </button></a>
+        </div>
+        <div class="button-sub-div">
+            <a href="/signin"><button class="top-button">Login</button></a>
+        </div>
         {% endif %}
         </div>
     </div>

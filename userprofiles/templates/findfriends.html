@@ -33,13 +33,18 @@
   }
 
   .left-div {
-    width: 20%;
+    width: 50%;
     height: 100%;
   }
 
+  .name-display {
+    border-bottom: 1.5px solid #7CB9E8;
+  }
+
   .right-div {
-    width: 80%;
+    width: 50%;
     height: 100%;
+    border-left: 1.5px solid #7CB9E8;
   }
 
   .profile-picture {
@@ -102,8 +107,7 @@
   <div class="profile-div">
     <div class="left-div">
     <h4 class="username">{{ i.user.username }}</h4>
-    <p>{{ i.fullname }}</p>
-    <p>{{ person }}</p>
+    <p class="name-display">{{ i.fullname }}</p>
     <br>
     <!-- <a href="{% url 'add-friend' %}"> -->
       <form method="POST" action="{% url 'add-friend' %}">

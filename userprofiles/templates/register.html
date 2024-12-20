@@ -20,7 +20,11 @@
         align-content: center;
         color: #7CB9E8;
       }
-      
+
+  p {
+    text-align: center;
+    font-size:medium;
+  }      
 </style>
 
 <section>
@@ -37,8 +41,10 @@
       <div>
         <label>{{ form.email.label_tag }}</label>
           {{ form.email.errors }}
-          {% render_field form.email class="form-control" %}
+          {% render_field form.email hx-post="/checkemail/" hx-target="#email-err" hx-trigger="keyup" class="form-control" %}
+          <div class="text-danger mt-2" id="email-err"></div>
       </div>
+      <div>
           <label>{{ form.password1.label_tag }}</label>
           {{ form.password1.errors }}
           {% render_field form.password1 class="form-control" %}
@@ -52,7 +58,10 @@
       <button type="submit" class="btn btn-success btn-block mt-2">Register</button>
   </form>
 </div>
-
+<hr>
+<div>
+  <p>Forgotten your password? Reset your password via your email address <a href="{% url 'resetpassword' %}">here</a></p>
+</div>
  
 
     {% if messages %}

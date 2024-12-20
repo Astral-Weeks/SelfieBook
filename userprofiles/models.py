@@ -11,9 +11,9 @@ class Profile(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     location = models.CharField(max_length=255, default="SelfieBook")
-    birthday = models.DateField()
+    birthday = models.DateField(null=True)
     publicaccount = models.BooleanField(default=True)
-    profilepicture = models.ImageField(upload_to="images/")
+    profilepicture = models.ImageField(upload_to="images/", default="images/unknown-user.png")
     # privacysettings = models.ForeignKey(PrivacySettings, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -58,3 +58,11 @@ class Notification(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     notifier = models.ForeignKey(NotifierJunctionTable, on_delete=models.CASCADE)
+
+class FriendPhotoNotification(models.Model):
+    selfie = models.ForeignKey(Selfies, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    message = models.TextField()
+    is_read = models.BooleanField(default=False)
+    # notifier = models.ForeignKey(NotifierJunctionTable, on_delete=models.CASCADE)

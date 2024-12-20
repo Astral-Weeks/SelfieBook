@@ -8,6 +8,11 @@
     background-color: #7CB9E8;
     color: white;
   }
+
+  p {
+    text-align: center;
+    font-size:medium;
+  }
 </style>
 
 <section>
@@ -28,6 +33,10 @@
           <br>
          <!-- <input type="submit" value="Submit"> -->
     </form>
+    <hr>
+    <div>
+      <p>Forgotten your password? Reset your password via your email address <a href="{% url 'resetpassword' %}">here</a></p>
+    </div>
 
     {% if messages %}
       {% for message in messages %}
