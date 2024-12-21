@@ -142,6 +142,9 @@ AWS_DEFAULT_ACL = os.environ.get("AWS_DEFAULT_ACL")
 
 AWS_LOCATION = "media"
 
+MEDIA_URL = 'HTTPS://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+MEDIAFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DEFAULT_FILE_STORAGE = 'SelfieBook.storages.MediaStore'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
